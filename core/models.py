@@ -574,6 +574,9 @@ class Temperature(models.Model):
     temperature = models.FloatField(
         blank=False, null=False, verbose_name=_("Temperature")
     )
+    humidity = models.FloatField(
+        blank=True, null=True, verbose_name=_("Humidity (%)")
+    )
     time = models.DateTimeField(
         blank=False, default=timezone.localtime, null=False, verbose_name=_("Time")
     )

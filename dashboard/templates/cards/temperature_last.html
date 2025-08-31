@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load babybuddy_tags %}
+
+<div class="card card-dashboard card-temperature">
+    <div class="card-header">
+        <i class="icon-temperature" aria-hidden="true"></i>
+        <a href="{% url 'core:temperature-list' %}">{% trans "Last Temperature Reading" %}</a>
+    </div>
+    {% if not empty %}
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="card-text text-success">
+                            <strong>{{ reading.temperature|floatformat:1 }}°</strong>
+                            {% if reading.humidity %}
+                                <br><span class="text-info">{{ reading.humidity|floatformat:1 }}% humidity</span>
+                            {% endif %}
+                            <br><span class="text-muted">{{ reading.time|timesince }} ago</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {% if not hide_empty %}
+            <div class="card-body">
+                <p class="card-text text-muted">{% trans "No temperature readings available." %}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

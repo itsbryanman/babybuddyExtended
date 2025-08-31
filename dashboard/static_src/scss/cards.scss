@@ -121,3 +121,17 @@
         color: map.get($theme-colors, 'success');
     }
 }
+
+.card-temperature,
+.card-sensor {
+    border-color: map.get($theme-colors, 'info');
+
+    .card-header, .card-header a {
+        background-color: map.get($theme-colors, 'info');
+        color: map.get($theme-colors, 'light');
+    }
+
+    .card-body {
+        color: map.get($theme-colors, 'info');
+    }
+}
