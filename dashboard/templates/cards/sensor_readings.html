@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load babybuddy_tags %}
+
+<div class="card card-dashboard card-sensor">
+    <div class="card-header">
+        <i class="icon-temperature" aria-hidden="true"></i>
+        <a href="{% url 'core:temperature-list' %}">{% trans "DHT22 Sensor Readings" %}</a>
+        <span class="text-muted">{{ date|date:"M j" }}</span>
+    </div>
+    {% if not empty %}
+        <div class="card-body">
+            <div class="container-fluid">
+                {% for reading in readings %}
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <small class="text-muted">{{ reading.time|date:"H:i" }}</small>
+                        </div>
+                        <div class="col-4">
+                            <span class="text-success">{{ reading.temperature|floatformat:1 }}°</span>
+                        </div>
+                        <div class="col-4">
+                            {% if reading.humidity %}
+                                <span class="text-info">{{ reading.humidity|floatformat:1 }}%</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {% if not hide_empty %}
+            <div class="card-body">
+                <p class="card-text text-muted">{% trans "No sensor readings for today." %}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

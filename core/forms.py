@@ -376,7 +376,7 @@ class TagAdminForm(CoreModelForm):
 class TemperatureForm(CoreModelForm, TaggableModelForm):
     fieldsets = [
         {
-            "fields": ["child", "temperature", "time"],
+            "fields": ["child", "temperature", "humidity", "time"],
             "layout": "required",
         },
         {"fields": ["notes", "tags"], "layout": "advanced"},
@@ -384,7 +384,7 @@ class TemperatureForm(CoreModelForm, TaggableModelForm):
 
     class Meta:
         model = models.Temperature
-        fields = ["child", "temperature", "time", "notes", "tags"]
+        fields = ["child", "temperature", "humidity", "time", "notes", "tags"]
         widgets = {
             "child": ChildRadioSelect,
             "time": DateTimeInput(),

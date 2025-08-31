@@ -846,3 +846,54 @@ def card_tummytime_day(context, child, date=None):
         "empty": empty,
         "hide_empty": _hide_empty(context),
     }
+
+
+@register.inclusion_tag("cards/temperature_last.html", takes_context=True)
+def card_temperature_last(context, child):
+    """
+    Information about the most recent temperature reading.
+    :param child: an instance of the Child model.
+    :returns: a dictionary with the most recent Temperature instance.
+    """
+    instance = (
+        models.Temperature.objects.filter(child=child)
+        .filter(**_filter_data_age(context, "time"))
+        .order_by("-time")
+        .first()
+    )
+    empty = not instance
+
+    return {
+        "type": "temperature",
+        "reading": instance,
+        "empty": empty,
+        "hide_empty": _hide_empty(context),
+    }
+
+
+@register.inclusion_tag("cards/sensor_readings.html", takes_context=True)  
+def card_sensor_readings(context, child, date=None):
+    """
+    Recent temperature and humidity sensor readings for the current day.
+    :param child: an instance of the Child model.
+    :param date: a DateTime instance.
+    :returns: a dictionary with recent sensor readings.
+    """
+    if not date:
+        date = timezone.localtime()
+
+    instances = (
+        models.Temperature.objects.filter(child=child)
+        .filter(time__date=date.date())
+        .order_by("-time")[:10]
+    )
+    
+    empty = len(instances) == 0
+
+    return {
+        "type": "sensor",
+        "readings": instances,
+        "date": date,
+        "empty": empty,
+        "hide_empty": _hide_empty(context),
+    }
